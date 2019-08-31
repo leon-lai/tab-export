@@ -1,6 +1,6 @@
 window.addEventListener("load", () => {
-	var textarea_URLs=document.getElementById("textarea_URLs");
-	var button_openURLs=document.getElementById("button_openURLs");
+	const textarea_URLs = document.getElementById("textarea_URLs");
+	const button_openURLs = document.getElementById("button_openURLs");
 	button_openURLs.addEventListener("click", () => {
 		textarea_URLs.value.trim().split("\n").forEach(url => {
 			url=url.trim();
