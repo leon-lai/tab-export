@@ -9,7 +9,10 @@ window.addEventListener("load", () => {
 		// <https://doi.org/10.17487/RFC3986>
 		.map(url => /^[a-z][a-z0-9+\-.]*:/i.test(url) ? url : `http://${url}`)
 		.forEach(url => {
-				chrome.tabs.create({active:false,url:url});
+			chrome.tabs.create({
+				active: false,
+				url: url,
+			});
 		});
 	});
 	chrome.tabs.query({}, tabs => {
