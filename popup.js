@@ -1,8 +1,8 @@
-window.addEventListener("load", function(){
+window.addEventListener("load", () => {
 	var textarea_URLs=document.getElementById("textarea_URLs");
 	var button_openURLs=document.getElementById("button_openURLs");
-	button_openURLs.addEventListener("click", function(){
-		textarea_URLs.value.trim().split("\n").forEach(function(url){
+	button_openURLs.addEventListener("click", () => {
+		textarea_URLs.value.trim().split("\n").forEach(url => {
 			url=url.trim();
 			if(url!==""&&!url.startsWith("#")){
 				if(!/^[^:\.]*:[^\.]*\./.test(url)){
@@ -12,7 +12,7 @@ window.addEventListener("load", function(){
 			}
 		});
 	});
-	chrome.tabs.query({},function(tabs){
+	chrome.tabs.query({}, tabs => {
 		var urls="";
 		tabs.forEach(function(tab){
 			urls+=tab.url+"\n";
