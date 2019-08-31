@@ -5,7 +5,9 @@ window.addEventListener("load", () => {
 		textarea_URLs.value.split("\n")
 		.map(line => line.trim())
 		.filter(line => line && ! line.startsWith("#"))
-		.map(url => /^[^:\.]*:[^\.]*\./i.test(url) ? url : `http://${url}`)
+		// scheme = ALPHA *( ALPHA / DIGIT / "+" / "-" / "." )
+		// <https://doi.org/10.17487/RFC3986>
+		.map(url => /^[a-z][a-z0-9+\-.]*:/i.test(url) ? url : `http://${url}`)
 		.forEach(url => {
 				chrome.tabs.create({active:false,url:url});
 		});
