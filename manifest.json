@@ -1,7 +1,7 @@
 {
 	"manifest_version": 2,
 	"name": "Tab Export",
-	"version": "2019.08.31.18.45",
+	"version": "0.1.0",
 	"browser_action": {
 		"default_popup": "popup.html"
 	},
