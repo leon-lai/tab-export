@@ -10,11 +10,22 @@ window.addEventListener("load", () => {
 		.map(url => /^[a-z][a-z0-9+\-.]*:/i.test(url) ? url : `http://${url}`)
 		.reduce(async (dependency, url) => {
 			await dependency;
-			await new Promise(resolve => {
+			const tab = await new Promise(resolve => {
 				chrome.tabs.create({
 					active: false,
 					url: url,
 				}, resolve);
+			});
+			await new Promise(resolve => {
+				const callback = (_, _2, { id, status }) => {
+					if (id === tab.id && status === "complete") {
+						chrome.tabs.onUpdated.removeListener(callback);
+						resolve();
+					}
+				};
+				const onGet = tab => callback(0, 0, tab);
+				chrome.tabs.onUpdated.addListener(callback);
+				chrome.tabs.get(tab.id, onGet);
 			});
 		}, undefined);
 	});
