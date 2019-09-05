@@ -27,6 +27,9 @@ window.addEventListener("load", () => {
 				chrome.tabs.onUpdated.addListener(callback);
 				chrome.tabs.get(tab.id, onGet);
 			});
+			await new Promise(resolve => {
+				setTimeout(resolve, 1000);
+			});
 		}, undefined);
 	});
 	chrome.tabs.query({}, tabs => {
