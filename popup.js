@@ -11,10 +11,10 @@ window.addEventListener("load", () => {
 		.reduce(async (dependency, url) => {
 			await dependency;
 			await new Promise(resolve => {
-			chrome.tabs.create({
-				active: false,
-				url: url,
-			}, resolve);
+				chrome.tabs.create({
+					active: false,
+					url: url,
+				}, resolve);
 			});
 		}, undefined);
 	});
