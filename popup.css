@@ -1,0 +1,15 @@
+#textarea_URLs {
+	font: unset;
+	white-space: pre;
+	resize: none;
+}
+body {
+	max-width: 800px; /* <https://stackoverflow.com/a/8983678> */
+	max-height: 600px;
+	margin: 0;
+	outline: none 0;
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+}
