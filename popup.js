@@ -19,6 +19,13 @@ addEventListener("load", () => {
 		}, undefined);
 	});
 	chrome.tabs.query({}, tabs => {
-		textarea_URLs.value = tabs.map(tab => tab.url).join("\n");
+		textarea_URLs.value = tabs.map(tab => tab.url)
+		.map(decodeURI)
+		.map(url => {
+			const u = new URL(url);
+			// replaces first occurrence
+			return url.replace(u.hostname, punycode.toUnicode(u.hostname));
+		})
+		.join("\n");
 	});
 });
