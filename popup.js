@@ -19,13 +19,18 @@ addEventListener("load", () => {
 		}, undefined);
 	});
 	chrome.tabs.query({}, tabs => {
-		textarea_URLs.value = tabs.map(tab => tab.url)
-		.map(decodeURI)
-		.map(url => {
-			const u = new URL(url);
-			// replaces first occurrence
-			return url.replace(u.hostname, punycode.toUnicode(u.hostname));
-		})
+		textarea_URLs.value = tabs
+		.map(tab => Object.assign(tab, {
+			url: decodeURI(tab.url),
+		}))
+		.map(tab => Object.assign(tab, {
+			url: (url => {
+				const u = new URL(url);
+				// replaces first occurrence
+				return url.replace(u.hostname, punycode.toUnicode(u.hostname));
+			})(tab.url),
+		}))
+		.map(tab => `${tab.url}##${tab.title}`)
 		.join("\n");
 	});
 });
