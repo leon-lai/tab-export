@@ -18,8 +18,8 @@ addEventListener("load", () => {
 			});
 		}, undefined);
 	});
-	chrome.tabs.query({}, tabs => {
-		textarea_URLs.value = tabs
+	chrome.tabs.query({}, async tabs => {
+		textarea_URLs.value = (await Promise.all(tabs
 		.map(tab => Object.assign(tab, {
 			url: decodeURI(tab.url),
 		}))
@@ -30,7 +30,18 @@ addEventListener("load", () => {
 				return url.replace(u.hostname, punycode.toUnicode(u.hostname));
 			})(tab.url),
 		}))
-		.map(tab => `${tab.url}##${tab.title}`)
+		.map(async tab => {
+			const { hostname: h, pathname: p } = new URL(tab.url);
+			if (h === "news.ycombinator.com" && p === "/item") {
+				return `${tab.url}##${await new Promise(resolve => {
+					chrome.tabs.executeScript(tab.id, {
+						code: 'document.querySelectorAll(".athing")[0].textContent.trim()',
+					}, resolve);
+				})}`
+			} else {
+				return tab.url;
+			}
+		})))
 		.join("\n");
 	});
 });
